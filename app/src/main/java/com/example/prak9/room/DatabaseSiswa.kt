@@ -1,7 +1,16 @@
 package com.example.prak9.room
 
 import androidx.room.RoomDatabase
+import kotlin.time.Instant
 
 @Database(entities = [Siswa::class], version = 1, exportSchema = false)
 abstract class DatabaseSiswa : RoomDatabase(){
+    abstract fun siswaDao() : SiswaDao
+
+    companion object {
+        @Volatile
+        private var Instance: DatavaseSiswa? = null
+
+
+    }
 }
