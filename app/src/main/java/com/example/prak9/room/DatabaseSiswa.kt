@@ -1,9 +1,9 @@
 package com.example.prak9.room
 
 import android.content.Context
+import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room3.Database
 import kotlin.time.Instant
 
 @Database(entities = [Siswa::class], version = 1, exportSchema = false)

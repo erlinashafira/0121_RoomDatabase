@@ -11,18 +11,20 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.prak9.R
+import com.example.prak9.view.DestinasiEntry
+import com.example.prak9.view.DestinasiHome
+import com.example.prak9.view.EntrySiswaScreen
+import com.example.prak9.view.HomeScreen
 
 @Composable
-fun SiswaApp(navController: NavHostController = rememberNavController()){
+fun SiswaApp(navController: NavHostController= rememberNavController()){
     HostNavigasi(navController = navController)
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SiswaTopAppBar(
@@ -31,8 +33,7 @@ fun SiswaTopAppBar(
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     navigateUp: () -> Unit = {}
-){
-
+) {
     CenterAlignedTopAppBar(title = { Text(title) },
         modifier = modifier,
         scrollBehavior = scrollBehavior,
@@ -61,7 +62,9 @@ fun HostNavigasi(
             )
         }
         composable(DestinasiEntry.route){
-            EntrySiswaScreen(navigateBack = { navController.popBackStack() })
+            EntrySiswaScreen(navigateBack = { navController.popBackStack()},
+                modifier = Modifier)
         }
+
     }
 }
