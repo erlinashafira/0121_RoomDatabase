@@ -1,0 +1,7 @@
+package com.example.prak9.room
+
+import androidx.room.RoomDatabase
+
+@Database(entities = [Siswa::class], version = 1, exportSchema = false)
+abstract class DatabaseSiswa : RoomDatabase(){
+}
