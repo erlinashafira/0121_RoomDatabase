@@ -119,7 +119,7 @@ fun ListSiswa(
     onSiswaClick: (Siswa) -> Unit,
     modifier: Modifier=Modifier
 ){
-    LazyColumn(modifier = Modifier){
+    LazyColumn(modifier = modifier){
         items(items = itemSiswa, key = {it.id}){
                 person ->  DataSiswa(
             siswa = person,
