@@ -1,6 +1,8 @@
 package com.example.prak9.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,32 +14,40 @@ import kotlinx.coroutines.launch
 
 class EditViewModel(
     savedState: SavedStateHandle,
-    private val repositoriSiswa: RepositoriSiswa): ViewModel(){
+    private val repositoriSiswa: RepositoriSiswa
+): ViewModel(){
 
     var uiStateSiswa by mutableStateOf(UIStateSiswa())
 
-    private val idSiswa: Int = checkNotNull(SavedStateHandle[DestinasiDetailSiswa.itemIdArg])
-        init{
-            viewModelScope.launch {
-                uiStateSiswa = repositoriSiswa.getSiswaStream(idSiswa)
-                    .filterNotNull()
-                    .first()
-                    .toUiStateSiswa(true)
-            }
+    private val idSiswa: Int =
+        checkNotNull(savedState[DestinasiDetailSiswa.itemIdArg])
+
+    init {
+        viewModelScope.launch {
+            uiStateSiswa = repositoriSiswa.getSiswaStream(idSiswa)
+                .filterNotNull()
+                .first()
+                .toUiStateSiswa(true)
         }
+    }
 
     fun updateUiState(detailSiswa: DetailSiswa) {
         uiStateSiswa =
-            UIStateSiswa(detailSiswa = detailSiswa, isEntryValid = validasiInput(detailSiswa))
+            UIStateSiswa(
+                detailSiswa = detailSiswa,
+                isEntryValid = validasiInput(detailSiswa)
+            )
     }
 
-    private fun validasiInput(uiState: DetailSiswa = uiStateSiswa.detailSiswa) : Boolean{
+    private fun validasiInput(
+        uiState: DetailSiswa = uiStateSiswa.detailSiswa
+    ): Boolean {
         return with(uiState) {
             nama.isNotBlank() && alamat.isNotBlank() && telpon.isNotBlank()
         }
     }
 
-    suspend fun updateSiswa(){
+    suspend fun updateSiswa() {
         if (validasiInput(uiStateSiswa.detailSiswa)) {
             repositoriSiswa.updateSiswa(uiStateSiswa.detailSiswa.toSiswa())
         }
