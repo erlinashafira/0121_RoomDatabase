@@ -43,6 +43,7 @@ import com.example.prak9.viewmodel.PenyediaViewModel
 import com.example.prak9.viewmodel.toSiswa
 import kotlinx.coroutines.launch
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailSiswaScreen(
@@ -67,26 +68,23 @@ fun DetailSiswaScreen(
                 },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
+
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(R.string.update)
+                    contentDescription = stringResource(R.string.update),
                 )
             }
-        },
-        modifier = modifier
+        }, modifier = modifier
     ) { innerPadding ->
         val uiState = viewModel.uiDetailState.collectAsState()
         val coroutineScope = rememberCoroutineScope()
-
-        BodyDetailSiswa(
+        BodyDetailDataSiswa(
             detailSiswaUiState = uiState.value,
-            onDelete = {
-                coroutineScope.launch {
-                    viewModel.deleteSiswa()
-                    navigateBack()
-                }
-            },
+            onDelete = { coroutineScope.launch {
+                viewModel.deleteSiswa()
+                navigateBack()
+            }},
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
@@ -95,7 +93,7 @@ fun DetailSiswaScreen(
 }
 
 @Composable
-private fun BodyDetailSiswa(
+private fun BodyDetailDataSiswa(
     detailSiswaUiState: DetailSiswaUiState,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier
@@ -104,9 +102,7 @@ private fun BodyDetailSiswa(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
-        var deleteConfirmationRequired by rememberSaveable {
-            mutableStateOf(false)
-        }
+        var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
 
         DetailDataSiswa(
             siswa = detailSiswaUiState.detailSiswa.toSiswa(),
@@ -114,24 +110,19 @@ private fun BodyDetailSiswa(
         )
 
         OutlinedButton(
-            onClick = {
-                deleteConfirmationRequired = true
-            },
+            onClick = { deleteConfirmationRequired = true },
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(stringResource(R.string.delete))
         }
-
         if (deleteConfirmationRequired) {
             DeleteConfirmationDialog(
                 onDeleteConfirm = {
                     deleteConfirmationRequired = false
                     onDelete()
                 },
-                onDeleteCancel = {
-                    deleteConfirmationRequired = false
-                },
+                onDeleteCancel = { deleteConfirmationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
         }
@@ -140,12 +131,10 @@ private fun BodyDetailSiswa(
 
 @Composable
 fun DetailDataSiswa(
-    siswa: Siswa,
-    modifier: Modifier = Modifier
+    siswa: Siswa, modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(
+        modifier = modifier, colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
@@ -154,42 +143,46 @@ fun DetailDataSiswa(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.padding_medium)
-            )
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
         ) {
             BarisDetailData(
                 labelResID = R.string.nama1,
                 itemDetail = siswa.nama,
                 modifier = Modifier.padding(
-                    dimensionResource(id = R.dimen.padding_medium)
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
                 )
             )
-
             BarisDetailData(
                 labelResID = R.string.alamat1,
                 itemDetail = siswa.alamat,
                 modifier = Modifier.padding(
-                    dimensionResource(id = R.dimen.padding_medium)
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
                 )
             )
-
             BarisDetailData(
                 labelResID = R.string.telpon1,
                 itemDetail = siswa.telpon,
                 modifier = Modifier.padding(
-                    dimensionResource(id = R.dimen.padding_medium)
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
                 )
             )
+
         }
     }
 }
 
 @Composable
 private fun BarisDetailData(
-    @StringRes labelResID: Int,
-    itemDetail: String,
-    modifier: Modifier = Modifier
+    @StringRes labelResID: Int, itemDetail: String, modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {
         Text(stringResource(labelResID))
@@ -204,24 +197,18 @@ private fun DeleteConfirmationDialog(
     onDeleteCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    AlertDialog(
-        onDismissRequest = { /* Do nothing */ },
-        title = {
-            Text(stringResource(id = R.string.attention))
-        },
-        text = {
-            Text(stringResource(id = R.string.tanya))
-        },
+    AlertDialog(onDismissRequest = { /* Do nothing */ },
+        title = { Text(stringResource(R.string.attention)) },
+        text = { Text(stringResource(R.string.tanya)) },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDeleteCancel) {
-                Text(stringResource(id = R.string.no))
+                Text(stringResource(R.string.no))
             }
         },
         confirmButton = {
             TextButton(onClick = onDeleteConfirm) {
-                Text(stringResource(id = R.string.yes))
+                Text(stringResource(R.string.yes))
             }
-        }
-    )
+        })
 }
