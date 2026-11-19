@@ -28,8 +28,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import com.example.prak9.R
 import com.example.prak9.uicontroller.DestinasiEntry
-import com.example.prak9.uicontroller.DestinasiNavigasi
-import com.example.prak9.uicontroller.SiswaTopAppBar
 import com.example.prak9.viewmodel.DetailSiswa
 import com.example.prak9.viewmodel.EntryViewModel
 import com.example.prak9.viewmodel.PenyediaViewModel
